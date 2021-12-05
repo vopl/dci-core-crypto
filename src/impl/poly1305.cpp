@@ -68,7 +68,7 @@ namespace dci::crypto::impl
     {
         return HashPtr
         {
-            new crypto::Poly1305(himpl::impl2Face<crypto::Poly1305>(*this)),
+            new crypto::Poly1305{himpl::impl2Face<crypto::Poly1305>(*this)},
             [](crypto::Hash* p){delete static_cast<crypto::Poly1305*>(p);}
         };
     }

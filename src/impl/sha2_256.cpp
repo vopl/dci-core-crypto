@@ -96,7 +96,7 @@ namespace dci::crypto::impl
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Sha2_256::Sha2_256(std::size_t digestSize)
-        : Hash(digestSize < 1 ? 1 : (digestSize > 32 ? 32 : digestSize))
+        : Hash{digestSize < 1 ? 1 : (digestSize > 32 ? 32 : digestSize)}
         , _state{IV}
         , _bitcount{}
         , _buffer{}
@@ -107,7 +107,7 @@ namespace dci::crypto::impl
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Sha2_256::Sha2_256(const Sha2_256& from)
-        : Hash(from)
+        : Hash{from}
         , _state{from._state}
         , _bitcount{from._bitcount}
         , _buffer{from._buffer}
@@ -116,7 +116,7 @@ namespace dci::crypto::impl
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Sha2_256::Sha2_256(Sha2_256&& from)
-        : Hash(std::move(from))
+        : Hash{std::move(from)}
         , _state{from._state}
         , _bitcount{from._bitcount}
         , _buffer{from._buffer}
@@ -160,7 +160,7 @@ namespace dci::crypto::impl
     {
         return HashPtr
         {
-            new crypto::Sha2_256(himpl::impl2Face<crypto::Sha2_256>(*this)),
+            new crypto::Sha2_256{himpl::impl2Face<crypto::Sha2_256>(*this)},
             [](crypto::Hash* p){delete static_cast<crypto::Sha2_256*>(p);}
         };
     }

@@ -22,19 +22,19 @@ namespace dci::crypto
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Poly1305::Poly1305()
-        : himpl::FaceLayout<Poly1305, impl::Poly1305, Mac>()
+        : himpl::FaceLayout<Poly1305, impl::Poly1305, Mac>{}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Poly1305::Poly1305(const Poly1305& from)
-        : himpl::FaceLayout<Poly1305, impl::Poly1305, Mac>(from.impl())
+        : himpl::FaceLayout<Poly1305, impl::Poly1305, Mac>{from.impl()}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Poly1305::Poly1305(Poly1305&& from)
-        : himpl::FaceLayout<Poly1305, impl::Poly1305, Mac>(std::move(from.impl()))
+        : himpl::FaceLayout<Poly1305, impl::Poly1305, Mac>{std::move(from.impl())}
     {
     }
 

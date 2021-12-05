@@ -5,73 +5,43 @@
    of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
    You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>. */
 
-#include "devUrandom.hpp"
+#include "std.hpp"
 #include "../../instance.hpp"
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <errno.h>
 
 namespace dci::crypto::rnd::entropy::source
 {
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
-    bool DevUrandom::available()
+    bool Std::available()
     {
-        int fd = ::open(name().data(), O_RDONLY|O_CLOEXEC);
-
-        if(0 <= fd)
-        {
-            while(0!=::close(fd) && EINTR == errno);
-
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
-    const std::string_view DevUrandom::name()
+    const std::string_view Std::name()
     {
-        return std::string_view("/dev/urandom");
+        return std::string_view("std::random_device{}");
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
-    DevUrandom::DevUrandom(Instance* instance)
+    Std::Std(Instance* instance)
         : Source{instance}
+        , _rd{}
     {
-        _fd = ::open(name().data(), O_RDONLY|O_CLOEXEC);
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
-    DevUrandom::~DevUrandom()
+    Std::~Std()
     {
-        if(0 <= _fd)
-        {
-            while(0!=::close(_fd) && EINTR == errno);
-        }
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
-    void DevUrandom::flush()
+    void Std::flush()
     {
-        std::uint8_t buf[32];
+        std::random_device::result_type buf[32 / sizeof(std::random_device::result_type)];
 
-        ssize_t sreaded = read(_fd, buf, sizeof(buf));
-        if(sreaded<=0)
-        {
-            return;
-        }
+        for(std::random_device::result_type& part : buf)
+            part = _rd();
 
-        std::size_t readed = static_cast<std::size_t>(sreaded);
-
-        if(readed != sizeof(buf))
-        {
-            _instance->addEntropy(buf, readed, 0);
-            return;
-        }
-
-        _instance->addEntropy(buf, readed, 1);
+        _instance->addEntropy(buf, sizeof(buf), _rd.entropy() ? sizeof(buf) : 0);
     }
 }

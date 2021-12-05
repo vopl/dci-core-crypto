@@ -11,8 +11,12 @@
 #include "entropy/source/systime.hpp"
 #include "entropy/source/rdrand.hpp"
 #include "entropy/source/rdseed.hpp"
-#include "entropy/source/devRandom.hpp"
-#include "entropy/source/devUrandom.hpp"
+#ifdef _WIN32
+#   include "entropy/source/std.hpp"
+#else
+#   include "entropy/source/devRandom.hpp"
+#   include "entropy/source/devUrandom.hpp"
+#endif
 
 #include <dci/utils/dbg.hpp>
 #include <cstring>
@@ -38,9 +42,13 @@ namespace dci::crypto::rnd
 
         tryUseEntropySource<SysTime>();
         tryUseEntropySource<RDSEED>();
-        tryUseEntropySource<DevRandom>();
         tryUseEntropySource<RDRAND>();
+#ifdef _WIN32
+        tryUseEntropySource<Std>();
+#else
+        tryUseEntropySource<DevRandom>();
         tryUseEntropySource<DevUrandom>();
+#endif
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7

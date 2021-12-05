@@ -15,26 +15,26 @@ namespace dci::crypto
     {
         return HashPtr
         {
-            new Hmac(std::move(hash)),
+            new Hmac{std::move(hash)},
             [](Hash*p){delete static_cast<Hmac*>(p);}
         };
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Hmac::Hmac(HashPtr hash)
-        : himpl::FaceLayout<Hmac, impl::Hmac, Mac>(std::move(hash))
+        : himpl::FaceLayout<Hmac, impl::Hmac, Mac>{std::move(hash)}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Hmac::Hmac(const Hmac& from)
-        : himpl::FaceLayout<Hmac, impl::Hmac, Mac>(from.impl())
+        : himpl::FaceLayout<Hmac, impl::Hmac, Mac>{from.impl()}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Hmac::Hmac(Hmac&& from)
-        : himpl::FaceLayout<Hmac, impl::Hmac, Mac>(std::move(from.impl()))
+        : himpl::FaceLayout<Hmac, impl::Hmac, Mac>{std::move(from.impl())}
     {
     }
 

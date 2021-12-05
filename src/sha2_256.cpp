@@ -15,26 +15,26 @@ namespace dci::crypto
     {
         return HashPtr
         {
-            new Sha2_256(digestSize),
+            new Sha2_256{digestSize},
             [](Hash* p){delete static_cast<Sha2_256*>(p);}
         };
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Sha2_256::Sha2_256(std::size_t digestSize)
-        : himpl::FaceLayout<Sha2_256, impl::Sha2_256, Hash>(digestSize)
+        : himpl::FaceLayout<Sha2_256, impl::Sha2_256, Hash>{digestSize}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Sha2_256::Sha2_256(const Sha2_256& from)
-        : himpl::FaceLayout<Sha2_256, impl::Sha2_256, Hash>(from.impl())
+        : himpl::FaceLayout<Sha2_256, impl::Sha2_256, Hash>{from.impl()}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Sha2_256::Sha2_256(Sha2_256&& from)
-        : himpl::FaceLayout<Sha2_256, impl::Sha2_256, Hash>(std::move(from.impl()))
+        : himpl::FaceLayout<Sha2_256, impl::Sha2_256, Hash>{std::move(from.impl())}
     {
     }
 

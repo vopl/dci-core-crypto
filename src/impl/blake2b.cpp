@@ -67,7 +67,7 @@ namespace dci::crypto::impl
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake2b::Blake2b(std::size_t digestSize)
-        : Hash(digestSize < 1 ? 1 : (digestSize > 64 ? 64 : digestSize))
+        : Hash{digestSize < 1 ? 1 : (digestSize > 64 ? 64 : digestSize)}
         , _buffer{}
         , _bufpos{0}
         , _H{IV}
@@ -81,23 +81,23 @@ namespace dci::crypto::impl
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake2b::Blake2b(const Blake2b& from)
-        : Hash(from)
-        , _buffer(from._buffer)
-        , _bufpos(from._bufpos)
-        , _H(from._H)
-        , _T(from._T)
-        , _F(from._F)
+        : Hash{from}
+        , _buffer{from._buffer}
+        , _bufpos{from._bufpos}
+        , _H{from._H}
+        , _T{from._T}
+        , _F{from._F}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake2b::Blake2b(Blake2b&& from)
-        : Hash(std::move(from))
-        , _buffer(from._buffer)
-        , _bufpos(from._bufpos)
-        , _H(from._H)
-        , _T(from._T)
-        , _F(from._F)
+        : Hash{std::move(from)}
+        , _buffer{from._buffer}
+        , _bufpos{from._bufpos}
+        , _H{from._H}
+        , _T{from._T}
+        , _F{from._F}
     {
         from.clear();
     }
@@ -144,7 +144,7 @@ namespace dci::crypto::impl
     {
         return HashPtr
         {
-            new crypto::Blake2b(himpl::impl2Face<crypto::Blake2b>(*this)),
+            new crypto::Blake2b{himpl::impl2Face<crypto::Blake2b>(*this)},
             [](crypto::Hash*p){delete static_cast<crypto::Blake2b*>(p);}
         };
     }

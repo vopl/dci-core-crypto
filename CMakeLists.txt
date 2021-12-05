@@ -9,6 +9,13 @@ enable_language(C ASM)
 file(GLOB_RECURSE INC include/*)
 file(GLOB_RECURSE SRC src/*)
 
+if(WIN32)
+    list(FILTER SRC EXCLUDE REGEX ".*source.devRandom.(hpp|cpp)$")
+    list(FILTER SRC EXCLUDE REGEX ".*source.devUrandom.(hpp|cpp)$")
+else()
+    list(FILTER SRC EXCLUDE REGEX ".*source.std.(hpp|cpp)$")
+endif()
+
 add_library(${UNAME} SHARED ${INC} ${SRC})
 dciIntegrationSetupTarget(${UNAME})
 #target_include_directories(${UNAME} PRIVATE src)

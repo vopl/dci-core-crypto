@@ -15,26 +15,26 @@ namespace dci::crypto
     {
         return HashPtr
         {
-            new Blake2b(digestSize),
+            new Blake2b{digestSize},
             [](Hash*p){delete static_cast<Blake2b*>(p);}
         };
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake2b::Blake2b(std::size_t digestSize)
-        : himpl::FaceLayout<Blake2b, impl::Blake2b, Hash>(digestSize)
+        : himpl::FaceLayout<Blake2b, impl::Blake2b, Hash>{digestSize}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake2b::Blake2b(const Blake2b& from)
-        : himpl::FaceLayout<Blake2b, impl::Blake2b, Hash>(from.impl())
+        : himpl::FaceLayout<Blake2b, impl::Blake2b, Hash>{from.impl()}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake2b::Blake2b(Blake2b&& from)
-        : himpl::FaceLayout<Blake2b, impl::Blake2b, Hash>(std::move(from.impl()))
+        : himpl::FaceLayout<Blake2b, impl::Blake2b, Hash>{std::move(from.impl())}
     {
     }
 

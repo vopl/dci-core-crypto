@@ -67,7 +67,7 @@ namespace dci::crypto::impl
     {
         return HashPtr
         {
-            new crypto::Hmac(himpl::impl2Face<crypto::Hmac>(*this)),
+            new crypto::Hmac{himpl::impl2Face<crypto::Hmac>(*this)},
             [](crypto::Hash* p){delete static_cast<crypto::Hmac*>(p);}
         };
     }

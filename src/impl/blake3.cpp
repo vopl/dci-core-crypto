@@ -895,7 +895,7 @@ namespace dci::crypto::impl
     {
         return HashPtr
         {
-            new crypto::Blake3(himpl::impl2Face<crypto::Blake3>(*this)),
+            new crypto::Blake3{himpl::impl2Face<crypto::Blake3>(*this)},
             [](crypto::Hash*p){delete static_cast<crypto::Blake3*>(p);}
         };
     }

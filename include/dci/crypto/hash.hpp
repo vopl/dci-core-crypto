@@ -50,6 +50,10 @@ namespace dci::crypto
         requires(std::is_same_v<Char, char> || std::is_same_v<Char, unsigned char> || std::is_same_v<Char, signed char>)
         void add(const Char* csz);
 
+        template <class Char>
+        requires(std::is_same_v<Char, wchar_t>)
+        void add(const Char* csz);
+
         template<class Char, class... Params>
         requires(std::is_trivially_copyable_v<Char>)
         void add(const std::basic_string<Char, Params...>& v);
@@ -59,7 +63,7 @@ namespace dci::crypto
         void add(const std::vector<T, Params...>& v);
 
         template <class Pod>
-        requires(std::is_trivially_copyable_v<Pod>)
+        requires(std::is_trivially_copyable_v<Pod> && !std::is_pointer_v<Pod> && !std::is_array_v<Pod>)
         void add(const Pod& v);
     };
 
@@ -69,6 +73,14 @@ namespace dci::crypto
     void Hash::add(const Char* csz)
     {
         add(csz, std::strlen(csz));
+    }
+
+    /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
+    template <class Char>
+    requires(std::is_same_v<Char, wchar_t>)
+    void Hash::add(const Char* csz)
+    {
+        add(csz, std::wcslen(csz)*sizeof(Char));
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
@@ -89,10 +101,9 @@ namespace dci::crypto
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     template <class Pod>
-    requires(std::is_trivially_copyable_v<Pod>)
+    requires(std::is_trivially_copyable_v<Pod> && !std::is_pointer_v<Pod> && !std::is_array_v<Pod>)
     void Hash::add(const Pod& v)
     {
         return add(&v, sizeof(v));
     }
-
 }

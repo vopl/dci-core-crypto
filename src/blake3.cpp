@@ -15,38 +15,38 @@ namespace dci::crypto
     {
         return HashPtr
         {
-            new Blake3(digestSize),
+            new Blake3{digestSize},
             [](Hash*p){delete static_cast<Blake3*>(p);}
         };
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake3::Blake3(std::size_t digestSize)
-        : himpl::FaceLayout<Blake3, impl::Blake3, Mac>(digestSize)
+        : himpl::FaceLayout<Blake3, impl::Blake3, Mac>{digestSize}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake3::Blake3(std::size_t digestSize, std::array<std::uint8_t, 32> key)
-        : himpl::FaceLayout<Blake3, impl::Blake3, Mac>(digestSize, key)
+        : himpl::FaceLayout<Blake3, impl::Blake3, Mac>{digestSize, key}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake3::Blake3(std::size_t digestSize, const void* kdfMaterial, std::size_t kdfMaterialSize)
-        : himpl::FaceLayout<Blake3, impl::Blake3, Mac>(digestSize, kdfMaterial, kdfMaterialSize)
+        : himpl::FaceLayout<Blake3, impl::Blake3, Mac>{digestSize, kdfMaterial, kdfMaterialSize}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake3::Blake3(const Blake3& from)
-        : himpl::FaceLayout<Blake3, impl::Blake3, Mac>(from.impl())
+        : himpl::FaceLayout<Blake3, impl::Blake3, Mac>{from.impl()}
     {
     }
 
     /////////0/////////1/////////2/////////3/////////4/////////5/////////6/////////7
     Blake3::Blake3(Blake3&& from)
-        : himpl::FaceLayout<Blake3, impl::Blake3, Mac>(std::move(from.impl()))
+        : himpl::FaceLayout<Blake3, impl::Blake3, Mac>{std::move(from.impl())}
     {
     }
 
