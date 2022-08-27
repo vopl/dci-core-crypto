@@ -11,6 +11,7 @@
 #include <dci/crypto/implMetaInfo.hpp>
 #include "api.hpp"
 #include "mac.hpp"
+#include <array>
 
 namespace dci::crypto
 {

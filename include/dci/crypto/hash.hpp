@@ -15,6 +15,7 @@
 #include <vector>
 #include <cstring>
 #include <cstdint>
+#include <type_traits>
 
 namespace dci::crypto
 {
